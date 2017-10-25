@@ -1,24 +1,14 @@
 # CODE + DATA : Neural Paraphrase Generation using Stacked Residual LSTM
 [Arxiv](https://arxiv.org/abs/1610.03098)
 
+``` 
+    NOTE: Repository size is 700MB, cloning will take some time
+```
+
 [Semantic Scholar](https://www.semanticscholar.org/paper/Neural-Paraphrase-Generation-with-Stacked-Residual-Prakash-Hasan/0662db8ec063f14507b43e4f93884c0d0e051d68)
 
-
-## Abstract
-
-In this paper, we propose a novel neural approach for paraphrase generation. 
-Conventional para- phrase generation methods either leverage hand-written rules 
-and thesauri-based alignments, or use statistical machine learning principles. 
-To the best of our knowledge, this work is the first to explore deep learning 
-models for paraphrase generation. Our primary contribution is a stacked residual 
-LSTM network, where we add residual connections between LSTM layers. This allows for 
-efficient training of deep LSTMs. We evaluate our model and other state-of-the-art 
-deep learning models on three different datasets: PPDB, WikiAnswers and MSCOCO. 
-Evaluation results demonstrate that our model outperforms sequence to sequence, 
-attention-based and bi- directional LSTM models on BLEU, METEOR, TER and 
-an embedding-based sentence similarity metric.
-
-![Neural Paraphrase Generation](https://github.com/iamaaditya/iamaaditya.github.io/raw/master/images/residual_lstm_small.png)
+![Neural Paraphrase Generation](https://github.com/iamaaditya/iamaaditya.github.io/raw/master/images/residual_lstm.png) |Conventional paraphrase generation methods either leverage hand-written rules and thesauri-based alignments, or use statistical machine learning principles. To the best of our knowledge, this work is the first to explore deep learning models for paraphrase generation. Our primary contribution is a stacked residual LSTM network, where we add residual connections between LSTM layers. This allows for efficient training of deep LSTMs. We evaluate our model and other state-of-the-art deep learning models on three different datasets: PPDB, WikiAnswers and MSCOCO. Evaluation results demonstrate that our model outperforms sequence to sequence, attention-based and bi- directional LSTM models on BLEU, METEOR, TER and an embedding-based sentence similarity metric.
+-----|-----
 
 ## Samples
 

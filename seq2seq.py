@@ -9,8 +9,14 @@ class Seq2seq:
         self.FLAGS = FLAGS
         self.END_TOKEN = 1
         self.UNK_TOKEN = 2
-        self.load_vocab(FLAGS.vocab_filename)
-        self.get_rev_vocab()
+
+        # create vocab and reverse vocab maps
+        self.vocab     = {}
+        self.rev_vocab = {}
+        with open(FLAGS.vocab_filename) as f:
+            for idx, line in enumerate(f):
+                self.vocab[line.strip()] = idx
+                self.rev_vocab[idx] = line.strip()
 
     def make_graph(self,mode, features, labels, params):
         vocab_size = len(self.vocab)
@@ -109,15 +115,6 @@ class Seq2seq:
                 outputs[i] += [self.END_TOKEN] * (output_length - len(outputs[i]))
             return { 'input:0': inputs, 'output:0': outputs }
         return input_fn, feed_fn
-
-    def load_vocab(self,filename):
-        self.vocab = {}
-        with open(filename) as f:
-            for idx, line in enumerate(f):
-                self.vocab[line.strip()] = idx
-
-    def get_rev_vocab(self):
-        self.rev_vocab =  {idx: key for key, idx in self.vocab.iteritems()}
 
     def get_formatter(self,keys):
         def to_str(sequence):
