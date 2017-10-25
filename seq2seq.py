@@ -16,27 +16,22 @@ class Seq2seq:
         vocab_size = len(self.vocab)
         embed_dim = params.embed_dim
         num_units = params.num_units
-        input_max_length = params.input_max_length
-        output_max_length = params.output_max_length
 
-        input = features['input']
-        output = features['output']
-        batch_size = tf.shape(input)[0]
-        start_tokens = tf.zeros([batch_size], dtype=tf.int64)
-        train_output = tf.concat([tf.expand_dims(start_tokens, 1), output], 1)
-        input_lengths = tf.reduce_sum(tf.to_int32(tf.not_equal(input, 1)), 1)
+        input,output   = features['input'], features['output']
+        batch_size     = tf.shape(input)[0]
+        start_tokens   = tf.zeros([batch_size], dtype= tf.int64)
+        train_output   = tf.concat([tf.expand_dims(start_tokens, 1), output], 1)
+        input_lengths  = tf.reduce_sum(tf.to_int32(tf.not_equal(input, 1)), 1)
         output_lengths = tf.reduce_sum(tf.to_int32(tf.not_equal(train_output, 1)), 1)
-        input_embed = layers.embed_sequence(input, vocab_size=vocab_size, embed_dim=embed_dim, scope='embed')
-        output_embed = layers.embed_sequence(train_output, vocab_size=vocab_size, embed_dim=embed_dim, scope='embed', reuse=True)
+        input_embed    = layers.embed_sequence(input, vocab_size= vocab_size, embed_dim = embed_dim, scope = 'embed')
+        output_embed   = layers.embed_sequence(train_output, vocab_size= vocab_size, embed_dim = embed_dim, scope = 'embed', reuse = True)
         with tf.variable_scope('embed', reuse=True):
             embeddings = tf.get_variable('embeddings')
-
         cell = tf.contrib.rnn.GRUCell(num_units=num_units)
-        cell = tf.contrib.rnn.ResidualWrapper(cell)
+        if self.FLAGS.use_residual_lstm:
+            cell = tf.contrib.rnn.ResidualWrapper(cell)
         encoder_outputs, encoder_final_state = tf.nn.dynamic_rnn(cell, input_embed, dtype=tf.float32)
 
-        train_helper = tf.contrib.seq2seq.TrainingHelper(output_embed, output_lengths)
-        pred_helper = tf.contrib.seq2seq.GreedyEmbeddingHelper(embeddings, start_tokens=tf.to_int32(start_tokens), end_token=1)
 
         def decode(helper, scope, reuse=None):
             with tf.variable_scope(scope, reuse=reuse):
@@ -52,9 +47,12 @@ class Seq2seq:
                         dtype=tf.float32, batch_size=batch_size))
                 outputs = tf.contrib.seq2seq.dynamic_decode(
                     decoder=decoder, output_time_major=False,
-                    impute_finished=True, maximum_iterations=output_max_length
+                    impute_finished=True, maximum_iterations=self.FLAGS.output_max_length
                 )
                 return outputs[0]
+
+        train_helper = tf.contrib.seq2seq.TrainingHelper(output_embed, output_lengths)
+        pred_helper = tf.contrib.seq2seq.GreedyEmbeddingHelper(embeddings, start_tokens=tf.to_int32(start_tokens), end_token=1)
         train_outputs = decode(train_helper, 'decode')
         pred_outputs  = decode(pred_helper, 'decode', reuse=True)
 

@@ -1,7 +1,6 @@
 # CODE + DATA : Neural Paraphrase Generation using Stacked Residual LSTM
 [Arxiv](https://arxiv.org/abs/1610.03098)
 
-
 [Semantic Scholar](https://www.semanticscholar.org/paper/Neural-Paraphrase-Generation-with-Stacked-Residual-Prakash-Hasan/0662db8ec063f14507b43e4f93884c0d0e051d68)
 
 
@@ -19,7 +18,7 @@ Evaluation results demonstrate that our model outperforms sequence to sequence,
 attention-based and bi- directional LSTM models on BLEU, METEOR, TER and 
 an embedding-based sentence similarity metric.
 
-![Neural Paraphrase Generation](https://github.com/iamaaditya/iamaaditya.github.io/raw/master/images/residual_lstm.png =150x150)
+![Neural Paraphrase Generation](https://github.com/iamaaditya/iamaaditya.github.io/raw/master/images/residual_lstm_small.png)
 
 ## Samples
 
