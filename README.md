@@ -107,7 +107,7 @@ an embedding-based sentence similarity metric.
 ## TODO
 - [x] Add data
 - [ ] Add pretrained models (checkpoints)
-- [ ] Add hyper-parmaeter information for reproducibility
+- [ ] Add hyper-parameter information for reproducibility
 
 
 ## Citation
