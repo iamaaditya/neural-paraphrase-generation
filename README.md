@@ -1,9 +1,10 @@
 # CODE + DATA : Neural Paraphrase Generation using Stacked Residual LSTM
-[Arxiv](https://arxiv.org/abs/1610.03098)
 
 ``` 
     NOTE: Repository size is 700MB, cloning will take some time
 ```
+
+[Arxiv](https://arxiv.org/abs/1610.03098)
 
 [Semantic Scholar](https://www.semanticscholar.org/paper/Neural-Paraphrase-Generation-with-Stacked-Residual-Prakash-Hasan/0662db8ec063f14507b43e4f93884c0d0e051d68)
 
@@ -89,9 +90,14 @@
 
 ## Data
 
+All the data is in public domain and collected from various sources. Please see our paper for details about sources.
+
 ### MSCOCO
 ### PPDB
 ### Wikianswers
+Data is very large and I split them into multiple files. Consider them joining before training. 
+Also quality of paraphrases is not that great. Results will be mediocre.
+
 ### Snomed (Clinical)
 
 ## TODO
@@ -110,3 +116,4 @@
   year={2016}
 }
 ```
+
