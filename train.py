@@ -2,7 +2,8 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import logging
 import tensorflow as tf
-from seq2seq import *
+from seq2seq import Seq2seq
+from data_handler import Data
 
 FLAGS = tf.flags.FLAGS
 
@@ -31,12 +32,13 @@ tf.flags.DEFINE_string('vocab_filename', 'data/mscoco/train_vocab.txt', 'Name of
 
 def main(args):
     tf.logging._logger.setLevel(logging.INFO)
+    
+    data  = Data(FLAGS)
+    model = Seq2seq(data.vocab_size, FLAGS)
 
-    model = Seq2seq(FLAGS)
-
-    input_fn, feed_fn = model.make_input_fn()
+    input_fn, feed_fn = data.make_input_fn()
     print_inputs = tf.train.LoggingTensorHook( ['source', 'target', 'predict'], every_n_iter=FLAGS.print_every, 
-            formatter=model.get_formatter(['source', 'target', 'predict']))
+            formatter=data.get_formatter(['source', 'target', 'predict']))
 
     estimator = tf.estimator.Estimator(model_fn=model.make_graph, model_dir=FLAGS.model_dir, params=FLAGS)
     estimator.train(input_fn=input_fn, hooks=[tf.train.FeedFnHook(feed_fn), print_inputs], steps=FLAGS.iterations)
