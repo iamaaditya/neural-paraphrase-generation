@@ -59,7 +59,7 @@ class Data:
         def format(values):
             res = []
             for key in keys:
-                res.append("****%s == %s" % (key, to_str(values[key])))
+                res.append("****%s == %s" % (key, to_str(values[key]).replace('</S>','').replace('<S>', '')))
             return '\n'+'\n'.join(res)
         return format
 
