@@ -33,6 +33,7 @@
 ```
 
 ## Detailed Usage
+```
   -h, --help            : show this help message and exit
   --num_units           : Number of units in a LSTM cell
   --embed_dim           : Size of the embedding vector
@@ -49,6 +50,7 @@
   --input_filename      : Name of the train source file
   --output_filename     : Name of the train target file
   --vocab_filename      : Name of the vocab file
+ ```
 
 ## Data
 
