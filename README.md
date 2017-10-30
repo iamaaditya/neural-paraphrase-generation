@@ -34,35 +34,20 @@
 
 ## Detailed Usage
   -h, --help            : show this help message and exit
-
   --num_units           : Number of units in a LSTM cell
-
   --embed_dim           : Size of the embedding vector
-
   --learning_rate       : learning rate for the optimizer
-
   --optimizer           : Name of the train source file
-
   --batch_size          : random seed for training sampling
-
   --print_every         : print records every n iteration
-
   --iterations          : number of iterations to train
-
   --model_dir           : Directory where to save the model
-
   --input_max_length    : Max length of input sequence to use
-
   --output_max_length   : Max length of output sequence to use
-
   --use_residual_lstm   : To use the residual connection with the residual LSTM
-
   --nouse_residual_lstm : To not use residual LSTM (default)
-
   --input_filename      : Name of the train source file
-
   --output_filename     : Name of the train target file
-
   --vocab_filename      : Name of the vocab file
 
 ## Data
