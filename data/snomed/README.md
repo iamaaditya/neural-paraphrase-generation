@@ -1,1 +1,1 @@
-Snomed data requires individual license. If you have access to license email me to get the data, with proof of license.
+Snomed data requires individual license. If you have access to license, email me with the proof to get the data.
