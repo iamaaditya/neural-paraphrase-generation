@@ -1,5 +1,7 @@
 # CODE + DATA : Neural Paraphrase Generation using Stacked Residual LSTM
 
+Disclaimer: This is not an official repository for the paper mentioned below.
+            This is only a re-implementation and no gurantees for any results are made.
 ``` 
     NOTE: Repository size is 700MB, cloning will take some time
 ```
