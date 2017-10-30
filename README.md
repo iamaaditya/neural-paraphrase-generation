@@ -33,65 +33,37 @@
 ```
 
 ## Detailed Usage
-  -h, --help            show this help message and exit
+  -h, --help            : show this help message and exit
 
-  --num_units NUM_UNITS
+  --num_units           : Number of units in a LSTM cell
 
-                        Number of units in a LSTM cell
+  --embed_dim           : Size of the embedding vector
 
-  --embed_dim EMBED_DIM
+  --learning_rate       : learning rate for the optimizer
 
-                        Size of the embedding vector
+  --optimizer           : Name of the train source file
 
-  --learning_rate LEARNING_RATE
+  --batch_size          : random seed for training sampling
 
-                        learning rate for the optimizer
+  --print_every         : print records every n iteration
 
-  --optimizer OPTIMIZER
+  --iterations          : number of iterations to train
 
-                        Name of the train source file
+  --model_dir           : Directory where to save the model
 
-  --batch_size BATCH_SIZE
+  --input_max_length    : Max length of input sequence to use
 
-                        random seed for training sampling
+  --output_max_length   : Max length of output sequence to use
 
-  --print_every PRINT_EVERY
+  --use_residual_lstm   : To use the residual connection with the residual LSTM
 
-                        print records every n iteration
+  --nouse_residual_lstm : To not use residual LSTM (default)
 
-  --iterations ITERATIONS
+  --input_filename      : Name of the train source file
 
-                        number of iterations to train
+  --output_filename     : Name of the train target file
 
-  --model_dir MODEL_DIR
-
-                        Directory where to save the model
-
-  --input_max_length INPUT_MAX_LENGTH
-
-                        Max length of input sequence to use
-
-  --output_max_length OUTPUT_MAX_LENGTH
-
-                        Max length of output sequence to use
-
-  --use_residual_lstm [USE_RESIDUAL_LSTM]
-
-                        To use the residual connection with the residual LSTM
-
-  --nouse_residual_lstm
-
-  --input_filename INPUT_FILENAME
-
-                        Name of the train source file
-
-  --output_filename OUTPUT_FILENAME
-
-                        Name of the train target file
-
-  --vocab_filename VOCAB_FILENAME
-
-                        Name of the vocab file
+  --vocab_filename      : Name of the vocab file
 
 ## Data
 
@@ -107,8 +79,47 @@ Also quality of paraphrases is not that great. Results will be mediocre.
 
 ## TODO
 - [x] Add data
-- [ ] Add pretrained models (checkpoints)
+- [x] Add pretrained models (checkpoints)
 - [ ] Add hyper-parameter information for reproducibility
+
+## Pretrained model
+
+- Extract checkpoints.tar.gz
+- It was trained in MSCOCO, and gives decent results
+
+```
+    ****source == a guy on a bike next to a <UNK>
+    ****target == a bicyclist passing a red commuter bus at a stop on a city <UNK>
+    ****predict == a man riding a bike on a city <UNK>
+    
+    ****source == a large giraffe is standing behind a <UNK>
+    ****target == a giraffe stands behind a metal chain link <UNK>
+    ****predict == a giraffe standing in a field with a <UNK>
+
+    ****source == a small baby giraffe is head butting a wooden post in an <UNK>
+    ****target == a couple of giraffe standing next to each <UNK>
+    ****predict == a baby giraffe standing next to a <UNK>
+
+    ****source == a cat sitting on a laptop in the <UNK>
+    ****target == a cat sits on the keyboard of a <UNK>
+    ****predict == a cat sitting on a laptop computer on a <UNK>
+
+    ****source == a person standing near to a train passing <UNK>
+    ****target == a railroad train driving down a city <UNK>
+    ****predict == a person standing next to a train on a <UNK>
+
+    ****source == a small cat sits with its owner on a <UNK>
+    ****target == a cat is lying in a persons <UNK>
+    ****predict == a cat is sitting on top of a <UNK>
+
+    ****source == a white transport truck driving down a <UNK>
+    ****target == a toy model of a town and highway with <UNK>
+    ****predict == a white truck driving down a road next to a <UNK>
+
+    ****source == a large truck and cars on a city <UNK>
+    ****target == a tractor trailer leaves a small trail of smoke as it leaves a parking <UNK>
+    ****predict == a large truck is parked on the side of a <UNK>
+```
 
 
 ## Citation
