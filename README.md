@@ -1,4 +1,4 @@
-# CODE to demonstrate Neural Paraphrase Generation. Includes public Datasets.
+# Code to demonstrate Neural Paraphrase Generation. Includes public Datasets.
 
 Disclaimer: This is not an official repository for the paper mentioned below.
             This is only a re-implementation and no gurantees for any results are made.
