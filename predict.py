@@ -24,27 +24,36 @@ tf.flags.DEFINE_integer('input_max_length'  , 30            , 'Max length of inp
 tf.flags.DEFINE_integer('output_max_length' , 30            , 'Max length of output sequence to use')
 
 tf.flags.DEFINE_bool('use_residual_lstm'    , True          , 'To use the residual connection with the residual LSTM')
-tf.flags.DEFINE_bool('predict'              , True          , 'Use this to predict only')
 
 # Data related
 tf.flags.DEFINE_string('input_filename', 'data/mscoco/train_source.txt', 'Name of the train source file')
 tf.flags.DEFINE_string('output_filename', 'data/mscoco/train_target.txt', 'Name of the train target file')
 tf.flags.DEFINE_string('vocab_filename', 'data/mscoco/train_vocab.txt', 'Name of the vocab file')
 
+class Predict:
+    def __init__(self):
+        self.data  = Data(FLAGS)
+        model = Seq2seq(self.data.vocab_size, FLAGS)
+        estimator = tf.estimator.Estimator(model_fn=model.make_graph, model_dir=FLAGS.model_dir)
+        def input_fn():
+            inp = tf.placeholder(tf.int64, shape=[None, None], name='input')
+            output = tf.placeholder(tf.int64, shape=[None, None], name='output')
+            tf.identity(inp[0], 'source')
+            tf.identity(output[0], 'target')
+            dict =  { 'input': inp, 'output': output}
+            return tf.estimator.export.ServingInputReceiver(dict, dict)
+        self.predictor = tf.contrib.predictor.from_estimator(estimator, input_fn)
+
+    def infer(self, sentence):
+        input = self.data.prepare(sentence)
+        predictor_prediction = self.predictor({"input": input, "output":input})
+        words = [self.data.rev_vocab.get(i, '<UNK>') for i in predictor_prediction['output'][0] if i > 2]
+        return ' '.join(words)
 
 def main(args):
-    # tf.logging._logger.setLevel(logging.INFO)
-    tf.logging.set_verbosity(logging.INFO)
-    
-    data  = Data(FLAGS)
-    model = Seq2seq(data.vocab_size, FLAGS)
-
-    input_fn, feed_fn = data.make_input_fn()
-    print_inputs = tf.train.LoggingTensorHook( ['source', 'target', 'predict'], every_n_iter=FLAGS.print_every, 
-            formatter=data.get_formatter(['source', 'target', 'predict']))
-
-    estimator = tf.estimator.Estimator(model_fn=model.make_graph, model_dir=FLAGS.model_dir)#, params=FLAGS)
-        estimator.train(input_fn=input_fn, hooks=[tf.train.FeedFnHook(feed_fn), print_inputs], steps=FLAGS.iterations)
+    P = Predict()
+    print(P.infer('the bike has a clock as a tire'))
+    print(P.infer('an old teal colored car parked on the street'))
 
 if __name__ == "__main__":
     tf.app.run()

@@ -8,6 +8,7 @@ class Data:
         self.rev_vocab = {}
         self.END_TOKEN = 1 
         self.UNK_TOKEN = 2
+        self.FLIP = False
         with open(FLAGS.vocab_filename) as f:
             for idx, line in enumerate(f):
                 self.vocab[line.strip()] = idx
@@ -17,6 +18,35 @@ class Data:
     def tokenize_and_map(self,line):
         return [self.vocab.get(token, self.UNK_TOKEN) for token in line.split(' ')]
 
+    def prepare(self,text):
+        tokens = self.tokenize_and_map(text)
+        input_length   = len(tokens)
+        source = [tokens]
+        source[0] += [self.END_TOKEN] * (input_length - len(source[0]))
+        return source
+
+
+
+    def single(self, sentence):
+        tokens = self.tokenize_and_map(sentence)
+        def input_fn():
+            inp = tf.placeholder(tf.int64, shape=[None, None], name='input')
+            output = tf.placeholder(tf.int64, shape=[None, None], name='output')
+            tf.identity(inp[0], 'source')
+            tf.identity(output[0], 'target')
+            return { 'input': inp, 'output': output}, None
+        def feed_fn():
+            input_length   = len(tokens)
+            source = [tokens]
+            source[0] += [self.END_TOKEN] * (input_length - len(source[0]))
+            # this source is not used to compute anything, just so that placeholder does not complain about
+            # missing values for target during prediction
+            self.FLIP = not self.FLIP
+            if not self.FLIP:
+                raise StopIteration
+
+            return { 'input:0': source, 'output:0': source }
+        return input_fn, feed_fn
 
     def make_input_fn(self):
         def input_fn():
@@ -39,7 +69,7 @@ class Data:
             source, target = [], []
             input_length, output_length = 0, 0
             for i in range(self.FLAGS.batch_size):
-                rec = data_feed.next()
+                rec = data_feed.__next__()
                 source.append(rec['input'])
                 target.append(rec['output'])
                 input_length = max(input_length, len(source[-1]))

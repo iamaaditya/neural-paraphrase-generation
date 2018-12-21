@@ -6,9 +6,9 @@ class Seq2seq:
         self.FLAGS = FLAGS
         self.vocab_size = vocab_size
 
-    def make_graph(self,mode, features, labels, params):
-        embed_dim = params.embed_dim
-        num_units = params.num_units
+    def make_graph(self,mode, features, labels):
+        embed_dim = self.FLAGS.embed_dim
+        num_units = self.FLAGS.num_units
 
         input,output   = features['input'], features['output']
         batch_size     = tf.shape(input)[0]
@@ -54,8 +54,8 @@ class Seq2seq:
         loss = tf.contrib.seq2seq.sequence_loss(train_outputs.rnn_output, output, weights=weights)
         train_op = layers.optimize_loss(
             loss, tf.train.get_global_step(),
-            optimizer=params.optimizer,
-            learning_rate=params.learning_rate,
+            optimizer=self.FLAGS.optimizer,
+            learning_rate=self.FLAGS.learning_rate,
             summaries=['loss', 'learning_rate'])
 
         tf.identity(pred_outputs.sample_id[0], name='predict')
